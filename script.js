@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const phoneHeaderBtn = document.querySelector('.phone-header-btn');
   if (phoneHeaderBtn) {
     phoneHeaderBtn.addEventListener('click', function() {
-      const phoneNumber = '[business_phone]';
+      const phoneNumber = '097687780';
       window.location.href = 'tel:' + phoneNumber;
     });
   }
