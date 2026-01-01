@@ -1,0 +1,57 @@
+# אייס קאר — Generative Engine Optimization Map
+
+> A בטיחות בתעבורה וניהול צי רכב business.
+
+---
+
+## Pages
+
+### דף הבית
+https://-92d643cf.zappy5.app
+מחפשים קצין בטיחות בתעבורה מנוסה? אייס קאר מציעה שירותי בטיחות וניהול צי רכב לחברות הייטק וארגונים. צרו קשר עוד היום!
+
+### שירותים
+https://-92d643cf.zappy5.app/services
+גלו את מגוון השירותים שלנו: קצין בטיחות בתעבורה, מיקור חוץ, ניהול צי רכב לארגונים והדרכות בטיחות. פתרונות מותאמים אישית!
+
+### אודות
+https://-92d643cf.zappy5.app/about
+הכירו את אייס קאר - מובילים בתחום קצין בטיחות בתעבורה ומיקור חוץ. ניסיון רב שנים, מקצועיות ללא פשרות, ושירות אישי לכל לקוח.
+
+### צור קשר
+https://-92d643cf.zappy5.app/contact
+צרו קשר עם אייס קאר לקבלת ייעוץ חינם בנושא קצין בטיחות בתעבורה, מיקור חוץ וניהול צי רכב. נשמח לענות על כל שאלה!
+
+## Legal & Policy
+
+### Privacy Policy
+https://-92d643cf.zappy5.app/privacy
+Information about how user data is collected, stored, and protected.
+
+### Terms & Conditions
+https://-92d643cf.zappy5.app/terms
+Legal terms describing service usage, rights, and policies.
+
+### Accessibility Statement
+https://-92d643cf.zappy5.app/accessibility
+Information about WCAG compliance and accessibility features.
+
+---
+
+# Business Context (for LLM understanding)
+
+## About אייס קאר
+אייס קאר is a business in the בטיחות בתעבורה וניהול צי רכב industry.
+
+## Target Audience
+חברות הייטק, ארגונים פרטיים, ארגונים ממשלתיים, ועסקים קטנים
+
+## Industry
+בטיחות בתעבורה וניהול צי רכב
+
+---
+
+# Additional Resources
+
+- **Sitemap**: https://-92d643cf.zappy5.app/sitemap.xml
+- **Robots.txt**: https://-92d643cf.zappy5.app/robots.txt
