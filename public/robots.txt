@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ace-car.co.il/sitemap.xml
+Sitemap: https://zappy-site-92d643cf-5c8c-4797-be8a.onrender.com/sitemap.xml
