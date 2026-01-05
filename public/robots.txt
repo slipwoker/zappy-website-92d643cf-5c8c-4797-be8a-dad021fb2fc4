@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ice-car.zappy5.app/sitemap.xml
+Sitemap: https://ace-car.co.il/sitemap.xml
