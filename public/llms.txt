@@ -1,57 +1,47 @@
-# אייס קאר — Generative Engine Optimization Map
-
-> A בטיחות בתעבורה וניהול צי רכב business.
+# Business — Generative Engine Optimization Map
 
 ---
 
 ## Pages
 
 ### דף הבית
-https://zappy-site-92d643cf-5c8c-4797-be8a.onrender.com
+https://ace-car.co.il
 מחפשים קצין בטיחות בתעבורה מנוסה? אייס קאר מציעה שירותי בטיחות וניהול צי רכב לחברות הייטק וארגונים. צרו קשר עוד היום!
 
 ### שירותים
-https://zappy-site-92d643cf-5c8c-4797-be8a.onrender.com/services
+https://ace-car.co.il/services
 גלו את מגוון השירותים שלנו: קצין בטיחות בתעבורה, מיקור חוץ, ניהול צי רכב לארגונים והדרכות בטיחות. פתרונות מותאמים אישית!
 
 ### אודות
-https://zappy-site-92d643cf-5c8c-4797-be8a.onrender.com/about
+https://ace-car.co.il/about
 הכירו את אייס קאר - מובילים בתחום קצין בטיחות בתעבורה ומיקור חוץ. ניסיון רב שנים, מקצועיות ללא פשרות, ושירות אישי לכל לקוח.
 
 ### צור קשר
-https://zappy-site-92d643cf-5c8c-4797-be8a.onrender.com/contact
+https://ace-car.co.il/contact
 צרו קשר עם אייס קאר לקבלת ייעוץ חינם בנושא קצין בטיחות בתעבורה, מיקור חוץ וניהול צי רכב. נשמח לענות על כל שאלה!
 
 ## Legal & Policy
 
 ### Privacy Policy
-https://zappy-site-92d643cf-5c8c-4797-be8a.onrender.com/privacy
+https://ace-car.co.il/privacy
 Information about how user data is collected, stored, and protected.
 
 ### Terms & Conditions
-https://zappy-site-92d643cf-5c8c-4797-be8a.onrender.com/terms
+https://ace-car.co.il/terms
 Legal terms describing service usage, rights, and policies.
 
 ### Accessibility Statement
-https://zappy-site-92d643cf-5c8c-4797-be8a.onrender.com/accessibility
+https://ace-car.co.il/accessibility
 Information about WCAG compliance and accessibility features.
 
 ---
 
 # Business Context (for LLM understanding)
 
-## About אייס קאר
-אייס קאר is a business in the בטיחות בתעבורה וניהול צי רכב industry.
-
-## Target Audience
-חברות הייטק, ארגונים פרטיים, ארגונים ממשלתיים, ועסקים קטנים
-
-## Industry
-בטיחות בתעבורה וניהול צי רכב
-
+## About Business
 ---
 
 # Additional Resources
 
-- **Sitemap**: https://zappy-site-92d643cf-5c8c-4797-be8a.onrender.com/sitemap.xml
-- **Robots.txt**: https://zappy-site-92d643cf-5c8c-4797-be8a.onrender.com/robots.txt
+- **Sitemap**: https://ace-car.co.il/sitemap.xml
+- **Robots.txt**: https://ace-car.co.il/robots.txt
