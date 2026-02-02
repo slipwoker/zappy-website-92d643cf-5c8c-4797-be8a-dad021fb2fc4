@@ -67,61 +67,44 @@
     <!-- Mickidum Accessibility Toolbar -->
     <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
 
-    <style id="zappy-mobile-submenu-styles">
-      /* Mobile submenu accordion styles */
+    <style id="zappy-dropdown-submenu-styles">
+      /* ========== DESKTOP DROPDOWN SUBMENU STYLES ========== */
+      /* Base styles for dropdown submenus - parent must be positioned */
+      .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { position: relative; }
+      /* Submenu base - hidden by default */
+      .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { display: block !important; position: absolute !important; top: 100%; left: 0; min-width: 220px; background: white; border-radius: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 1000; list-style: none; pointer-events: none; }
+      /* CRITICAL: Desktop hover styles to show dropdown */
+      .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Submenu item styling */
+      .sub-menu li { list-style: none; margin: 0; padding: 0; }
+      .sub-menu a { display: block !important; padding: 10px 16px !important; color: #333 !important; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background-color 0.2s; }
+      .sub-menu a:hover { background-color: #f5f5f5; }
+      /* RTL (Hebrew/Arabic) dropdown positioning */
+      [dir="rtl"] .nav-menu .sub-menu, [dir="rtl"] nav .sub-menu, [dir="rtl"] .navbar .sub-menu, html[lang="he"] .nav-menu .sub-menu, html[lang="he"] nav .sub-menu, html[lang="he"] .navbar .sub-menu, html[lang="ar"] .nav-menu .sub-menu, html[lang="ar"] nav .sub-menu, html[lang="ar"] .navbar .sub-menu { left: auto !important; right: 0 !important; }
+      /* Hide empty dropdown menus */
+      .sub-menu:empty, .sub-menu:not(:has(li:not(.zappy-hidden-menu-item))), .sub-menu:not(:has(li)) { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
+      /* Desktop: show submenu on Menu Group hover */
+      li:has(.menu-group-title):hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Menu Group title styling */
+      .nav-menu > li > .menu-group-title, #navMenu > li > .menu-group-title { display: inline-block; padding: 0.5rem 1rem; cursor: default; user-select: none; }
+      
+      /* ========== MOBILE SUBMENU STYLES ========== */
       @media (max-width: 768px) {
-        .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu {
-          position: static !important;
-          transform: none !important;
-          box-shadow: none !important;
-          background: transparent !important;
-          margin-top: 0 !important;
-          max-height: 0;
-          overflow: hidden;
-          opacity: 0;
-          visibility: hidden;
-          transition: max-height 0.3s ease, opacity 0.3s ease, visibility 0.3s ease, padding 0.3s ease;
-          padding: 0 !important;
-          border-radius: 0 !important;
-        }
-        .sub-menu.mobile-expanded {
-          max-height: 500px !important;
-          opacity: 1 !important;
-          visibility: visible !important;
-          padding: 8px 0 8px 16px !important;
-        }
-        [dir="rtl"] .sub-menu.mobile-expanded, html[lang="he"] .sub-menu.mobile-expanded, html[lang="ar"] .sub-menu.mobile-expanded {
-          padding: 8px 16px 8px 0 !important;
-        }
-        .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu {
-          opacity: 0; visibility: hidden; pointer-events: none;
-        }
-        .nav-menu li > .sub-menu.mobile-expanded, nav li > .sub-menu.mobile-expanded, .navbar li > .sub-menu.mobile-expanded, #navMenu li > .sub-menu.mobile-expanded {
-          opacity: 1 !important; visibility: visible !important; pointer-events: auto !important;
-        }
-        .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) {
-          display: flex !important; flex-wrap: wrap !important; align-items: center !important;
-        }
-        .nav-menu li:has(.sub-menu) > a, nav li:has(.sub-menu) > a, .navbar li:has(.sub-menu) > a, #navMenu li:has(.sub-menu) > a {
-          flex: 1 !important;
-        }
-        .mobile-submenu-toggle {
-          display: flex !important; align-items: center !important; justify-content: center !important;
-          width: 44px !important; height: 44px !important; background: transparent !important;
-          border: none !important; cursor: pointer !important; padding: 0 !important; margin: 0 !important;
-          flex-shrink: 0 !important; -webkit-tap-highlight-color: transparent;
-        }
-        .mobile-submenu-toggle::after {
-          content: '' !important; display: block !important; width: 0 !important; height: 0 !important;
-          border-left: 6px solid transparent !important; border-right: 6px solid transparent !important;
-          border-top: 7px solid currentColor !important; transition: transform 0.3s ease !important;
-        }
+        .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { position: static !important; transform: none !important; box-shadow: none !important; background: transparent !important; max-height: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: max-height 0.3s ease, opacity 0.3s ease; padding: 0 !important; border-radius: 0 !important; }
+        .sub-menu.mobile-expanded { max-height: 500px !important; opacity: 1 !important; visibility: visible !important; padding: 8px 0 8px 16px !important; }
+        [dir="rtl"] .sub-menu.mobile-expanded, html[lang="he"] .sub-menu.mobile-expanded { padding: 8px 16px 8px 0 !important; }
+        /* Disable hover behavior on mobile */
+        .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 0; visibility: hidden; pointer-events: none; }
+        .nav-menu li > .sub-menu.mobile-expanded, nav li > .sub-menu.mobile-expanded, .navbar li > .sub-menu.mobile-expanded, #navMenu li > .sub-menu.mobile-expanded { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+        .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { display: flex !important; flex-wrap: wrap !important; align-items: center !important; }
+        .nav-menu li:has(.sub-menu) > a, nav li:has(.sub-menu) > a, .navbar li:has(.sub-menu) > a, #navMenu li:has(.sub-menu) > a { flex: 1 !important; }
+        .nav-menu li:has(.sub-menu) > a [class*="chevron"], .nav-menu li:has(.sub-menu) > a [class*="arrow"], .nav-menu li:has(.sub-menu) > a .fa-chevron-down, .nav-menu li:has(.sub-menu) > a .fa-angle-down, nav li:has(.sub-menu) > a [class*="chevron"], nav li:has(.sub-menu) > a [class*="arrow"], #navMenu li:has(.sub-menu) > a [class*="chevron"], #navMenu li:has(.sub-menu) > a [class*="arrow"] { display: none !important; visibility: hidden !important; }
+        .mobile-submenu-toggle { display: flex !important; align-items: center !important; justify-content: center !important; width: 44px !important; height: 44px !important; background: transparent !important; border: none !important; cursor: pointer !important; }
+        .mobile-submenu-toggle::after { content: '' !important; width: 0 !important; height: 0 !important; border-left: 6px solid transparent !important; border-right: 6px solid transparent !important; border-top: 7px solid currentColor !important; transition: transform 0.3s ease !important; }
         .mobile-submenu-toggle.expanded::after { transform: rotate(180deg) !important; }
-        .nav-menu li:has(.sub-menu) > .sub-menu, nav li:has(.sub-menu) > .sub-menu, .navbar li:has(.sub-menu) > .sub-menu, #navMenu li:has(.sub-menu) > .sub-menu {
-          flex-basis: 100% !important; width: 100% !important;
-        }
-        .sub-menu a { padding: 10px 0 !important; display: block !important; font-size: 14px !important; }
-        .sub-menu a:hover { background-color: transparent !important; }
+        .nav-menu li:has(.sub-menu) > .sub-menu, nav li:has(.sub-menu) > .sub-menu { flex-basis: 100% !important; width: 100% !important; }
+        .sub-menu a { padding: 10px 0 !important; display: block !important; }
+        .nav-menu li:has(.sub-menu) > .menu-group-title, nav li:has(.sub-menu) > .menu-group-title, .navbar li:has(.sub-menu) > .menu-group-title, #navMenu li:has(.sub-menu) > .menu-group-title { flex: 1 !important; }
       }
       @media (min-width: 769px) { .mobile-submenu-toggle { display: none !important; } }
     </style>
@@ -137,22 +120,22 @@
     <div class="container nav-container">
       <div class="nav-brand">
         <a href="/" class="logo-link">
-          <img src="/assets/logo.webp" alt="אייס קאר" class="logo">
+          <img src="/assets/logo.webp" alt="אייס קאר שרותי קצין בטיחות בתעבורה" class="logo">
         </a>
       </div>
       
       <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
         <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
         </svg>
         <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: none;">
-          <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
         </svg>
       </button>
       
       <button class="phone-header-btn" aria-label="התקשרו אלינו">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
         </svg>
       </button>
       
@@ -199,7 +182,7 @@
       
         <div class="service-detail-content">
           <h2>ניהול צי רכב לארגונים - פתרון מקיף</h2>
-          <p>ניהול צי רכב לארגונים הוא משימה מורכבת שדורשת מקצועיות, ניסיון וידע רב. אייס קאר מציעה שירותי מיקור חוץ מקיפים לניהול צי הרכב שלכם, כולל תחזוקה שוטפת, ניהול ביטוחים, מעקב אחר תקינות הרכבים, ניהול תאונות דרכים ואופטימיזציה של עלויות התפעול. אנו עובדים עם ספקים מובילים בתחום ומבטיחים לכם את השירות הטוב ביותר במחיר הוגן.</p>
+          <p>ניהול צי רכב לארגונים הוא משימה מורכבת שדורשת מקצועיות, ניסיון וידע רב. אייס קאר שרותי קצין בטיחות בתעבורה מציעה שירותי מיקור חוץ מקיפים לניהול צי הרכב שלכם, כולל תחזוקה שוטפת, ניהול ביטוחים, מעקב אחר תקינות הרכבים, ניהול תאונות דרכים ואופטימיזציה של עלויות התפעול. אנו עובדים עם ספקים מובילים בתחום ומבטיחים לכם את השירות הטוב ביותר במחיר הוגן.</p>
           <p>השירותים שלנו כוללים תכנון וניהול לוח זמנים לטיפולים תקופתיים, תיאום עם מוסכים ומרכזי שירות, ניהול רישיונות וביטוחים, טיפול בתביעות ביטוח, ניהול תאונות דרכים ותיקון נזקים. אנו משתמשים במערכות דיגיטליות מתקדמות שמאפשרות לכם לקבל דיווחים בזמן אמת על מצב הצי, עלויות התחזוקה והביטוח, ומועדי טיפולים עתידיים.</p>
           <p>בנוסף, אנו מספקים ייעוץ מקצועי לגבי רכישה או השכרה של רכבים חדשים, החלפת רכבים ישנים, ואופטימיזציה של הרכב הצי בהתאם לצרכים המשתנים של הארגון. המטרה שלנו היא לחסוך לכם זמן וכסף ולאפשר לכם להתמקד בעסק שלכם תוך ידיעה שהצי שלכם מנוהל בצורה מקצועית ויעילה.</p>
         </div>
@@ -233,7 +216,7 @@
       
         <div class="service-detail-content">
           <h2>ייעוץ והטמעת נהלי בטיחות</h2>
-          <p>יצירת תרבות של בטיחות בארגון דורשת יותר מאשר עמידה בדרישות החוק. זה דורש הטמעה של נהלים ברורים, הדרכה מתמשכת, ומעקב שוטף אחר ביצוע. אייס קאר מספקת שירותי ייעוץ מקיפים להטמעת נהלי בטיחות בארגון, כולל הכנת מדיניות בטיחות, פיתוח נהלי עבודה, הדרכת מנהלים ועובדים, ויצירת מערכת דיווח ומעקב.</p>
+          <p>יצירת תרבות של בטיחות בארגון דורשת יותר מאשר עמידה בדרישות החוק. זה דורש הטמעה של נהלים ברורים, הדרכה מתמשכת, ומעקב שוטף אחר ביצוע. אייס קאר שרותי קצין בטיחות בתעבורה מספקת שירותי ייעוץ מקיפים להטמעת נהלי בטיחות בארגון, כולל הכנת מדיניות בטיחות, פיתוח נהלי עבודה, הדרכת מנהלים ועובדים, ויצירת מערכת דיווח ומעקב.</p>
           <p>אנו עובדים בשיתוף פעולה הדוק עם הנהלת הארגון כדי להבין את הצרכים והאתגרים הייחודיים שלכם ולפתח פתרונות מותאמים אישית. אנו מסייעים בהגדרת יעדי בטיחות ברורים, בפיתוח מדדי ביצוע, ובהקמת מערכת דיווח שמאפשרת מעקב שוטף אחר התקדמות והישגים.</p>
           <p>בנוסף, אנו מספקים ליווי שוטף לאורך כל התהליך של הטמעת הנהלים, כולל הדרכות, סדנאות, וייעוץ טכני. אנו גם מבצעים ביקורות תקופתיות כדי לוודא שהנהלים מיושמים כראוי ולזהות תחומים שדורשים שיפור. המטרה שלנו היא לעזור לכם ליצור סביבת עבודה בטוחה יותר ולהפחית את הסיכון לתאונות ונזקים.</p>
         </div>
@@ -247,7 +230,7 @@
 
   <section class="service-benefits">
     <div class="container">
-      <h2>היתרונות של עבודה עם אייס קאר</h2>
+      <h2>היתרונות של עבודה עם אייס קאר שרותי קצין בטיחות בתעבורה</h2>
       <div class="benefits-grid">
         <div class="benefit-card">
           <i class="fas fa-check-circle"></i>
@@ -297,15 +280,22 @@
 
   
     <!-- Legal Footer -->
+    
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>אייס קאר שרותי קצין בטיחות בתעבורה - Footer</title>
+
+
     <footer class="legal-footer">
       <div class="container">
         <div class="footer-main">
           <div class="all-rights-reserved">
-            <p>© 2026 אייס קאר. כל הזכויות שמורות.</p>
+            <p>© 2026 אייס קאר שרותי קצין בטיחות בתעבורה. כל הזכויות שמורות.</p>
           </div>
-          <div class="footer-social"><a href="#" target="_blank" rel="noopener noreferrer" aria-label="Facebook" style="display:none;" style="display:none;" style="display:none;" style="display:none;"><i class="fab fa-facebook"></i></a>
-<a href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram" style="display:none;" style="display:none;" style="display:none;" style="display:none;"><i class="fab fa-instagram"></i></a>
-<a href="https://wa.me/97297687780" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a></div>
+          <div class="footer-social">
+<a href="https://wa.me/972505732110" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a><a href="https://facebook.com/profile.php?id=100026830969329" target="_blank" rel="noopener noreferrer" aria-label="Facebook" data-element-id="element-ai-1770038095271-f8x2m9" data-element-type="link"><i class="fab fa-facebook"></i></a></div>
           <div class="footer-legal">
             <a href="/privacy" aria-label="מדיניות פרטיות">
               מדיניות פרטיות
@@ -327,7 +317,9 @@
     </footer>
 
 
-<!-- Zappy Attribution Header Script -->
+
+
+
 <script>
 (function() {
   var websiteId = '92d643cf-5c8c-4797-be8a-dad021fb2fc4';
@@ -419,7 +411,23 @@
       if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initMobileSubmenuToggles); }
       else { initMobileSubmenuToggles(); }
       var resizeTimer; window.addEventListener('resize', function() { clearTimeout(resizeTimer); resizeTimer = setTimeout(initMobileSubmenuToggles, 250); });
+      // Re-initialize when mobile menu becomes visible (MutationObserver)
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes') {
+            var target = mutation.target;
+            if (target.classList && (target.classList.contains('active') || target.classList.contains('open'))) {
+              setTimeout(initMobileSubmenuToggles, 100);
+            }
+          }
+        });
+      });
+      setTimeout(function() {
+        document.querySelectorAll('.mobile-menu, .nav-menu, #navMenu, nav').forEach(function(menu) {
+          observer.observe(menu, { attributes: true, attributeFilter: ['class', 'style'] });
+        });
+      }, 500);
     })();
     </script>
     <script src="/script.js"></script>
-</body></html>
+</body></html><!-- Zappy Attribution Header Script -->
