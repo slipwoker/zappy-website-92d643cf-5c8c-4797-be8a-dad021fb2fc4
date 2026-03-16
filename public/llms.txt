@@ -1,6 +1,4 @@
-# אייס קאר שרותי קצין בטיחות בתעבורה — Generative Engine Optimization Map
-
-> A בטיחות בתעבורה וניהול צי רכב business.
+# Business — Generative Engine Optimization Map
 
 ---
 
@@ -40,15 +38,7 @@ Information about WCAG compliance and accessibility features.
 
 # Business Context (for LLM understanding)
 
-## About אייס קאר שרותי קצין בטיחות בתעבורה
-אייס קאר שרותי קצין בטיחות בתעבורה is a business in the בטיחות בתעבורה וניהול צי רכב industry.
-
-## Target Audience
-חברות הייטק, ארגונים פרטיים, ארגונים ממשלתיים, ועסקים קטנים
-
-## Industry
-בטיחות בתעבורה וניהול צי רכב
-
+## About Business
 ---
 
 # Additional Resources
