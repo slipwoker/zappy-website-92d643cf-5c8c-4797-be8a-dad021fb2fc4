@@ -1,4 +1,6 @@
-# Business — Generative Engine Optimization Map
+# אייס קאר שרותי קצין בטיחות בתעבורה — Generative Engine Optimization Map
+
+> A בטיחות בתעבורה וניהול צי רכב business.
 
 ---
 
@@ -36,12 +38,43 @@ Information about WCAG compliance and accessibility features.
 
 ---
 
-# Business Context (for LLM understanding)
+## How to Contact Us
 
-## About Business
+- Email: info@ace-car.co.il
+- Phone: 97297687780
+- Phone (tel): tel:97297687780
+- Address: התע"ש 10, כפר סבא, ישראל
+
+### Contact form
+- URL: https://ace-car.co.il/contact
+- Endpoint: https://ace-car.co.il/api/email/contact-form
+- Method: POST
+- Content-Type: application/json
+- Fields:
+  - `name` (text, required)
+  - `email` (email, required)
+  - `phone` (tel, required)
+  - `company` (text)
+  - `message` (textarea)
+  - `consent` (checkbox, required)
+
 ---
 
-# Additional Resources
+# Business Context (for LLM understanding)
 
-- **Sitemap**: https://ace-car.co.il/sitemap.xml
-- **Robots.txt**: https://ace-car.co.il/robots.txt
+## About אייס קאר שרותי קצין בטיחות בתעבורה
+אייס קאר שרותי קצין בטיחות בתעבורה is a business in the בטיחות בתעבורה וניהול צי רכב industry.
+
+## Target Audience
+חברות הייטק, ארגונים פרטיים, ארגונים ממשלתיים, ועסקים קטנים
+
+## Industry
+בטיחות בתעבורה וניהול צי רכב
+
+---
+
+# Machine-readable feeds
+
+- Sitemap (XML): https://ace-car.co.il/sitemap.xml
+- Robots: https://ace-car.co.il/robots.txt
+- Flattened page text (for LLMs): https://ace-car.co.il/llms-full.txt
