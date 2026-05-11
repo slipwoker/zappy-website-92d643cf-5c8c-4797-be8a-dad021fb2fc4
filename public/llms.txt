@@ -43,7 +43,7 @@ Information about WCAG compliance and accessibility features.
 - Email: info@ace-car.co.il
 - Phone: 97297687780
 - Phone (tel): tel:97297687780
-- Address: התע"ש 10 + ניצני עוז, כפר סבא, ישראל
+- Address: התע"ש 10 , כפר סבא, ישראל
 
 ### Contact form
 - URL: https://ace-car.co.il/contact
