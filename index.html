@@ -161,26 +161,31 @@
       // Track button clicks (counted as actions)
       if (target.tagName === 'BUTTON' || target.closest('button')) {
         var button = target.tagName === 'BUTTON' ? target : target.closest('button');
-        trackEvent('click', {
+        var clickMeta = {
           element: 'button',
           text: button.textContent.trim().substring(0, 100),
           id: button.id || null,
           class: button.className || null
-        });
+        };
+        
+        trackEvent('click', clickMeta);
       }
       
       // Track link clicks (navigation - not counted as actions)
       else if (target.tagName === 'A' || target.closest('a')) {
         var link = target.tagName === 'A' ? target : target.closest('a');
-        trackEvent('navigation', {
+        var navMeta = {
           element: 'link',
           text: link.textContent.trim().substring(0, 100),
           href: link.href,
           external: link.hostname !== window.location.hostname
-        });
+        };
+        
+        trackEvent('navigation', navMeta);
       }
     }, true);
   }
+  
   
   // Track form submissions
   if (config.trackFormSubmissions) {
@@ -224,69 +229,9 @@
     <meta name="twitter:title" content="שירותי קצין בטיחות בתעבורה מקצועיים — אייס קאר">
     <meta name="twitter:description" content="מחפשים קצין בטיחות בתעבורה מנוסה? אייס קאר מציעה שירותי בטיחות וניהול צי רכב לחברות הייטק וארגונים. צרו קשר עוד היום!">
     <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"LocalBusiness","@id":"https://ace-car.co.il#organization","name":"אייס קאר שרותי קצין בטיחות בתעבורה","url":"https://ace-car.co.il","address":{"@type":"PostalAddress","streetAddress":"התע\"ש 10 , כפר סבא, ישראל"},"contactPoint":[{"@type":"ContactPoint","contactType":"customer service","email":"info@ace-car.co.il","telephone":"97297687780"}]},{"@type":"WebSite","@id":"https://ace-car.co.il#website","url":"https://ace-car.co.il","name":"אייס קאר שרותי קצין בטיחות בתעבורה","publisher":{"@id":"https://ace-car.co.il#organization"}}]}</script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <!-- Favicons -->
-    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
-    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-<style>
-/* Zappy Attribution Header Styles */
-.zappy-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: white;
-  box-shadow: 0px 4px 19px 0px rgba(0,0,0,0.04);
-  padding: 16px 10px;
-  text-align: center;
-  font-family: 'Nunito', sans-serif;
-  font-size: 16px;
-  color: #4a4a4a;
-  line-height: 21px;
-  z-index: 99999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 21px;
-  direction: ltr !important;
-  unicode-bidi: isolate;
-}
-
-    .zappy-header p {
-      margin: 0;
-      padding: 0;
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 21px;
-      white-space: nowrap;
-      display: inline-block;
-      vertical-align: baseline;
-      margin-bottom: 0 !important;
-      direction: ltr !important;
-    }
-
-.zappy-header .zappy-link {
-  font-weight: 700;
-  color: #4a4a4a;
-  text-decoration: none;
-  transition: opacity 0.2s;
-}
-
-.zappy-header .zappy-link:hover {
-  opacity: 0.7;
-}</style>
-    <!-- Cookie Consent -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">
-    <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
-    <!-- Mickidum Accessibility Toolbar -->
-    <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
+    
     <link rel="stylesheet" href="/styles.css">
+    <script>window.ZAPPY_WEBSITE_ID = "92d643cf-5c8c-4797-be8a-dad021fb2fc4"; window.ZAPPY_API_BASE = "https://api.zappy5.com";</script>
 
     <style id="zappy-dropdown-submenu-styles">
       /* ========== DESKTOP DROPDOWN SUBMENU STYLES ========== */
@@ -376,6 +321,75 @@
     </style>
 </head>
 <body>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>שירותי קצין בטיחות בתעבורה מקצועיים — אייס קאר שרותי קצין בטיחות בתעבורה</title>
+  <meta name="description" content="מחפשים קצין בטיחות בתעבורה מנוסה? אייס קאר שרותי קצין בטיחות בתעבורה מציעה שירותי בטיחות וניהול צי רכב לחברות הייטק וארגונים. צרו קשר עוד היום!">
+  <meta name="keywords" content="קצין בטיחות בתעבורה, מיקור חוץ, קצין בטיחות בתעבורה לחברות הייטק, ניהול צי רכב לארגונים">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<style>
+/* Zappy Attribution Header Styles */
+.zappy-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  box-shadow: 0px 4px 19px 0px rgba(0,0,0,0.04);
+  padding: 16px 10px;
+  text-align: center;
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  color: #4a4a4a;
+  line-height: 21px;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 21px;
+  direction: ltr !important;
+  unicode-bidi: isolate;
+}
+
+    .zappy-header p {
+      margin: 0;
+      padding: 0;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 21px;
+      white-space: nowrap;
+      display: inline-block;
+      vertical-align: baseline;
+      margin-bottom: 0 !important;
+      direction: ltr !important;
+    }
+
+.zappy-header .zappy-link {
+  font-weight: 700;
+  color: #4a4a4a;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.zappy-header .zappy-link:hover {
+  opacity: 0.7;
+}</style>
+    <!-- Cookie Consent -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
+    <!-- Mickidum Accessibility Toolbar -->
+    <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
+
 
 
 <!-- Zappy Attribution Header -->
