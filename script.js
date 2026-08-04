@@ -270,29 +270,6 @@ window.onload = function() {
 })();
 
 
-/* ZAPPY_MOBILE_NAV_ICON_ALIGNMENT_RUNTIME */
-/* ZAPPY_MOBILE_NAV_ICON_ALIGNMENT_RUNTIME_V2 */
-(function(){
-  try {
-    function injectMobileNavIconAlignmentFix() {
-      if (document.getElementById('zappy-mobile-nav-icon-alignment-fix')) return;
-      var style = document.createElement('style');
-      style.id = 'zappy-mobile-nav-icon-alignment-fix';
-      style.textContent = "\n\n/* ZAPPY_MOBILE_NAV_ICON_ALIGNMENT_FIX */\n/* ZAPPY_MOBILE_NAV_ICON_ALIGNMENT_FIX_V2 */\n/* Keep mobile hamburger / phone buttons vertically centered even when the\n   generated navbar's children are all absolute/fixed and the navbar would\n   otherwise collapse to the top edge. */\n@media (max-width: 768px) {\n  .navbar,\n  nav.navbar {\n    min-height: 70px !important;\n  }\n\n  .navbar > .mobile-toggle,\n  nav.navbar > .mobile-toggle,\n  .navbar .mobile-toggle,\n  nav.navbar .mobile-toggle,\n  #mobileToggle,\n  .navbar > .phone-header-btn,\n  nav.navbar > .phone-header-btn,\n  .navbar .phone-header-btn,\n  nav.navbar .phone-header-btn {\n    position: absolute !important;\n    top: 0 !important;\n    bottom: 0 !important;\n    transform: none !important;\n    margin-top: auto !important;\n    margin-bottom: auto !important;\n    align-self: center !important;\n    align-items: center !important;\n    justify-content: center !important;\n    line-height: 0 !important;\n  }\n\n  .navbar > .mobile-toggle,\n  nav.navbar > .mobile-toggle,\n  .navbar .mobile-toggle,\n  nav.navbar .mobile-toggle,\n  #mobileToggle {\n    display: flex !important;\n  }\n\n  html:not([data-zappy-site-type=\"ecommerce\"]) .navbar > .phone-header-btn,\n  html:not([data-zappy-site-type=\"ecommerce\"]) nav.navbar > .phone-header-btn,\n  html:not([data-zappy-site-type=\"ecommerce\"]) .navbar .phone-header-btn,\n  html:not([data-zappy-site-type=\"ecommerce\"]) nav.navbar .phone-header-btn {\n    display: flex !important;\n  }\n\n  html[data-zappy-site-type=\"ecommerce\"] .phone-header-btn,\n  body[data-zappy-site-type=\"ecommerce\"] .phone-header-btn,\n  html[data-zappy-site-type=\"ecommerce\"] header .phone-header-btn,\n  html[data-zappy-site-type=\"ecommerce\"] nav .phone-header-btn {\n    display: none !important;\n    visibility: hidden !important;\n    width: 0 !important;\n    height: 0 !important;\n    min-width: 0 !important;\n    overflow: hidden !important;\n  }\n}\n";
-      document.head.appendChild(style);
-    }
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', injectMobileNavIconAlignmentFix);
-    } else {
-      injectMobileNavIconAlignmentFix();
-    }
-    window.addEventListener('load', injectMobileNavIconAlignmentFix);
-    setTimeout(injectMobileNavIconAlignmentFix, 250);
-    setTimeout(injectMobileNavIconAlignmentFix, 1000);
-  } catch (e) {}
-})();
-
-
 /* ZAPPY_PUBLISHED_LIGHTBOX_RUNTIME */
 (function(){
   try {
@@ -6168,6 +6145,30 @@ function withConsent(category, callback) {
   } else {
     setTimeout(scheduleCookieConsentLoad, 1000);
   }
+})();
+
+
+/* ZAPPY_MOBILE_NAV_ICON_ALIGNMENT_RUNTIME */
+/* ZAPPY_MOBILE_NAV_ICON_ALIGNMENT_RUNTIME_V2 */
+(function(){
+  try {
+    function injectMobileNavIconAlignmentFix() {
+      if (document.getElementById('zappy-mobile-nav-icon-alignment-fix')) return;
+      var style = document.createElement('style');
+      style.id = 'zappy-mobile-nav-icon-alignment-fix';
+      style.textContent = "\n\n/* ZAPPY_MOBILE_NAV_ICON_ALIGNMENT_FIX */\n/* ZAPPY_MOBILE_NAV_ICON_ALIGNMENT_FIX_V3 */\n/* ZAPPY_MOBILE_NAV_ICON_ALIGNMENT_FIX_V4 */\n/* ZAPPY_MOBILE_NAV_ICON_ALIGNMENT_FIX_V5 */\n/* The mobile hamburger / phone buttons are absolutely positioned. Keep the\n   navbar itself as a non-collapsing containing block so auto-margin centering\n   stays aligned even when generated mobile CSS moves every nav child out of flow. */\n@media (max-width: 768px) {\n  .navbar,\n  nav.navbar {\n    min-height: 70px !important;\n  }\n\n  /* V5: Desktop .nav-search-box must stay hidden on mobile. AI/customization CSS\n     often force-shows it with higher specificity than the generator's plain\n     .nav-search-box { display:none } (e.g. .navbar .nav-ecommerce-icons.nav-icons-left\n     .nav-search-box { display:flex; background: cream }), which paints an empty\n     cream/white square left of the cart on RTL ecommerce navs. Beat that chain. */\n  html body .navbar .nav-search-box,\n  html body nav.navbar .nav-search-box,\n  html body .navbar .nav-ecommerce-icons .nav-search-box,\n  html body .navbar .nav-ecommerce-icons.nav-icons-left .nav-search-box,\n  html body .navbar .nav-container .nav-ecommerce-icons.nav-icons-left .nav-search-box {\n    display: none !important;\n    visibility: hidden !important;\n    width: 0 !important;\n    height: 0 !important;\n    min-width: 0 !important;\n    max-width: 0 !important;\n    overflow: hidden !important;\n    padding: 0 !important;\n    margin: 0 !important;\n    border: none !important;\n    background: transparent !important;\n    pointer-events: none !important;\n  }\n\n  /* V5: Search-toggle SVG is frequently recolored to --nav-text (cream/white) by\n     AI customization at .navbar .nav-container .nav-ecommerce-icons.nav-icons-right\n     .nav-search-toggle svg, while the pill button itself keeps the correct\n     contrasting color from the luminance-aware pill rules. Inherit that color\n     with a selector that out-ranks the nav-text stroke paint so the icon stays\n     legible on light AND dark pills (no hardcoded text-dark). */\n  html body .navbar .nav-container .nav-ecommerce-icons.nav-icons-right .nav-search-toggle svg,\n  html body .navbar .nav-container .nav-ecommerce-icons.nav-icons-right .nav-search-toggle svg *,\n  html body .navbar .nav-ecommerce-icons.nav-icons-right .nav-search-toggle svg,\n  html body .navbar .nav-ecommerce-icons.nav-icons-right .nav-search-toggle svg * {\n    color: inherit !important;\n    stroke: currentColor !important;\n    fill: none !important;\n  }\n\n  /* V5: Keep the three mobile icon couples on one baseline — absolute groups +\n     hamburger all center against the same navbar box. */\n  html body .navbar .nav-ecommerce-icons.nav-icons-left,\n  html body .navbar .nav-ecommerce-icons.nav-icons-right,\n  html body .navbar .nav-icons-left,\n  html body .navbar .nav-icons-right {\n    top: 50% !important;\n    bottom: auto !important;\n    transform: translateY(-50%) !important;\n    align-items: center !important;\n  }\n  html body .navbar .nav-ecommerce-icons.nav-icons-right .nav-search-toggle,\n  html body .navbar .nav-search-toggle {\n    width: 36px !important;\n    height: 36px !important;\n    min-width: 36px !important;\n    padding: 0 !important;\n    margin: 0 !important;\n    border-radius: 9999px !important;\n    align-self: center !important;\n  }\n\n  /* E-commerce mobile navbar icon-group alignment.\n     The icon couples (search after the hamburger; login+cart at the end edge)\n     are absolutely positioned with inset-inline offsets — inset-inline-start:52px\n     to clear the 36px hamburger that sits at left:12px on the .navbar, and\n     inset-inline-end:12px to hug the end edge. Those offsets are authored in the\n     NAVBAR's full-width coordinate space (the hamburger uses the same one). But\n     the offsets are resolved against the nearest positioned ancestor, and the\n     generated CSS makes .nav-container position:relative. When .nav-container is\n     ALSO inset by the navbar's horizontal padding (max-width / padding from the\n     LLM-authored navbar), the groups resolve to that inset box instead of the\n     full-width navbar: the search drifts ~20px away from the hamburger and the\n     cart leaves a fat asymmetric gap before the screen edge. Dropping\n     .nav-container out of the containing-block chain on mobile makes both couples\n     resolve to .navbar (always full-bleed) so they line up tightly with the\n     hamburger and sit symmetrically against both edges regardless of any\n     navbar/container padding. Scoped via :has() to navbars that actually carry\n     the e-commerce icon couples so non-ecommerce navs are untouched. */\n  .navbar:has(.nav-ecommerce-icons) .nav-container,\n  nav.navbar:has(.nav-ecommerce-icons) .nav-container,\n  header:has(.nav-ecommerce-icons) .nav-container {\n    position: static !important;\n  }\n\n  /* Some generated RTL nav CSS sets both left:50% and right:50% on the\n     absolute .nav-brand. That collapses it to 0px wide, so the logo flows\n     left from the center instead of being centered on it. */\n  .navbar .nav-brand,\n  nav.navbar .nav-brand,\n  html[dir=\"rtl\"] .navbar .nav-brand,\n  html[dir=\"rtl\"] nav.navbar .nav-brand,\n  html[lang=\"he\"] .navbar .nav-brand,\n  html[lang=\"he\"] nav.navbar .nav-brand,\n  html[lang=\"ar\"] .navbar .nav-brand,\n  html[lang=\"ar\"] nav.navbar .nav-brand {\n    position: absolute !important;\n    left: 50% !important;\n    right: auto !important;\n    top: 50% !important;\n    width: auto !important;\n    min-width: max-content !important;\n    max-width: calc(100% - 168px) !important;\n    transform: translate(-50%, -50%) !important;\n    margin: 0 !important;\n    text-align: center !important;\n    justify-content: center !important;\n  }\n\n  .navbar .nav-brand .logo-link,\n  nav.navbar .nav-brand .logo-link,\n  .navbar .nav-brand a,\n  nav.navbar .nav-brand a {\n    display: inline-flex !important;\n    justify-content: center !important;\n    align-items: center !important;\n    margin-left: auto !important;\n    margin-right: auto !important;\n  }\n\n  .navbar > .mobile-toggle,\n  nav.navbar > .mobile-toggle,\n  .navbar .mobile-toggle,\n  nav.navbar .mobile-toggle,\n  #mobileToggle,\n  .navbar > .phone-header-btn,\n  nav.navbar > .phone-header-btn,\n  .navbar .phone-header-btn,\n  nav.navbar .phone-header-btn {\n    position: absolute !important;\n    top: 0 !important;\n    bottom: 0 !important;\n    transform: none !important;\n    margin-top: auto !important;\n    margin-bottom: auto !important;\n    align-self: center !important;\n    align-items: center !important;\n    justify-content: center !important;\n    line-height: 0 !important;\n  }\n\n  .navbar > .mobile-toggle,\n  nav.navbar > .mobile-toggle,\n  .navbar .mobile-toggle,\n  nav.navbar .mobile-toggle,\n  #mobileToggle {\n    display: flex !important;\n  }\n\n  html:not([data-zappy-site-type=\"ecommerce\"]) .navbar > .phone-header-btn,\n  html:not([data-zappy-site-type=\"ecommerce\"]) nav.navbar > .phone-header-btn,\n  html:not([data-zappy-site-type=\"ecommerce\"]) .navbar .phone-header-btn,\n  html:not([data-zappy-site-type=\"ecommerce\"]) nav.navbar .phone-header-btn {\n    display: flex !important;\n  }\n\n  html[data-zappy-site-type=\"ecommerce\"] .phone-header-btn,\n  body[data-zappy-site-type=\"ecommerce\"] .phone-header-btn,\n  html[data-zappy-site-type=\"ecommerce\"] header .phone-header-btn,\n  html[data-zappy-site-type=\"ecommerce\"] nav .phone-header-btn {\n    display: none !important;\n    visibility: hidden !important;\n    width: 0 !important;\n    height: 0 !important;\n    min-width: 0 !important;\n    overflow: hidden !important;\n  }\n}\n";
+      document.head.appendChild(style);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', injectMobileNavIconAlignmentFix);
+    } else {
+      injectMobileNavIconAlignmentFix();
+    }
+    window.addEventListener('load', injectMobileNavIconAlignmentFix);
+    setTimeout(injectMobileNavIconAlignmentFix, 250);
+    setTimeout(injectMobileNavIconAlignmentFix, 1000);
+  } catch (e) {}
 })();
 
 
