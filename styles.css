@@ -1497,6 +1497,67 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
 
 
 
+/* ZAPPY_MOBILE_NAV_ICON_ALIGNMENT_FIX */
+/* ZAPPY_MOBILE_NAV_ICON_ALIGNMENT_FIX_V2 */
+/* Keep mobile hamburger / phone buttons vertically centered even when the
+   generated navbar's children are all absolute/fixed and the navbar would
+   otherwise collapse to the top edge. */
+@media (max-width: 768px) {
+  .navbar,
+  nav.navbar {
+    min-height: 70px !important;
+  }
+
+  .navbar > .mobile-toggle,
+  nav.navbar > .mobile-toggle,
+  .navbar .mobile-toggle,
+  nav.navbar .mobile-toggle,
+  #mobileToggle,
+  .navbar > .phone-header-btn,
+  nav.navbar > .phone-header-btn,
+  .navbar .phone-header-btn,
+  nav.navbar .phone-header-btn {
+    position: absolute !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    transform: none !important;
+    margin-top: auto !important;
+    margin-bottom: auto !important;
+    align-self: center !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 0 !important;
+  }
+
+  .navbar > .mobile-toggle,
+  nav.navbar > .mobile-toggle,
+  .navbar .mobile-toggle,
+  nav.navbar .mobile-toggle,
+  #mobileToggle {
+    display: flex !important;
+  }
+
+  html:not([data-zappy-site-type="ecommerce"]) .navbar > .phone-header-btn,
+  html:not([data-zappy-site-type="ecommerce"]) nav.navbar > .phone-header-btn,
+  html:not([data-zappy-site-type="ecommerce"]) .navbar .phone-header-btn,
+  html:not([data-zappy-site-type="ecommerce"]) nav.navbar .phone-header-btn {
+    display: flex !important;
+  }
+
+  html[data-zappy-site-type="ecommerce"] .phone-header-btn,
+  body[data-zappy-site-type="ecommerce"] .phone-header-btn,
+  html[data-zappy-site-type="ecommerce"] header .phone-header-btn,
+  html[data-zappy-site-type="ecommerce"] nav .phone-header-btn {
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+  }
+}
+
+
 /* ZAPPY_ANNOUNCEMENT_HEADER_OFFSET_CSS_V3 */
 :root {
   --zappy-header-stack-height: calc(var(--zappy-announcement-height, 40px) + var(--header-height, 72px));
@@ -1743,86 +1804,6 @@ nav .sub-menu.zappy-empty-submenu,
 #navMenu .dropdown-menu.zappy-empty-submenu {
   display: none !important;
 }
-
-
-/* ========== RTL MOBILE NAVBAR FIX (zappy-rtl-mobile-fix-v2) ========== */
-/* High-specificity rules to ensure RTL positioning wins over any [lang="en"] conflicts */
-/* For RTL sites: hamburger on RIGHT, phone on LEFT (mirror of LTR layout) */
-/* Mobile menu panel is FULL-BLEED (left+right:0) — V1's left:auto pin was for
-   the retired half-width drawer and must not return. */
-/* NOTE: Includes both html[dir="rtl"] AND [dir="rtl"] selectors as fallback */
-/* because some pages may be wrapped with <html lang="en"> (missing dir="rtl" on html) */
-/* but still have dir="rtl" on <body> or other ancestor elements */
-
-@media (max-width: 768px) {
-  /* RTL Mobile Toggle (hamburger) - positioned on RIGHT */
-  /* Using multiple parent selectors for higher specificity */
-  html[dir="rtl"] .navbar .mobile-toggle,
-  html[dir="rtl"] nav .mobile-toggle,
-  html[dir="rtl"] header .mobile-toggle,
-  html[dir="rtl"] .nav-container .mobile-toggle,
-  html[dir="rtl"] .mobile-toggle,
-  [dir="rtl"] .navbar .mobile-toggle,
-  [dir="rtl"] nav .mobile-toggle,
-  [dir="rtl"] header .mobile-toggle,
-  [dir="rtl"] .nav-container .mobile-toggle,
-  [dir="rtl"] .mobile-toggle,
-  html[lang="he"] .mobile-toggle,
-  html[lang="ar"] .mobile-toggle {
-    left: auto !important;
-    right: 15px !important;
-  }
-  
-  /* RTL Phone Button - positioned on LEFT */
-  html[dir="rtl"] .navbar .phone-header-btn,
-  html[dir="rtl"] nav .phone-header-btn,
-  html[dir="rtl"] header .phone-header-btn,
-  html[dir="rtl"] .nav-container .phone-header-btn,
-  html[dir="rtl"] .phone-header-btn,
-  [dir="rtl"] .navbar .phone-header-btn,
-  [dir="rtl"] nav .phone-header-btn,
-  [dir="rtl"] header .phone-header-btn,
-  [dir="rtl"] .nav-container .phone-header-btn,
-  [dir="rtl"] .phone-header-btn,
-  html[lang="he"] .phone-header-btn,
-  html[lang="ar"] .phone-header-btn {
-    left: 15px !important;
-    right: auto !important;
-  }
-  
-  /* RTL Mobile Menu panel — full-bleed (matches current overlay generator) */
-  html[dir="rtl"] .navbar .nav-menu,
-  html[dir="rtl"] nav .nav-menu,
-  html[dir="rtl"] header .nav-menu,
-  html[dir="rtl"] .nav-container .nav-menu,
-  html[dir="rtl"] .nav-menu,
-  [dir="rtl"] .navbar .nav-menu,
-  [dir="rtl"] nav .nav-menu,
-  [dir="rtl"] header .nav-menu,
-  [dir="rtl"] .nav-container .nav-menu,
-  [dir="rtl"] .nav-menu,
-  html[lang="he"] .nav-menu,
-  html[lang="ar"] .nav-menu {
-    left: 0 !important;
-    right: 0 !important;
-    width: 100% !important;
-    max-width: none !important;
-  }
-  
-  /* RTL Mobile Menu Links - text align right */
-  html[dir="rtl"] .nav-menu a,
-  html[dir="rtl"] .nav-menu li,
-  [dir="rtl"] .nav-menu a,
-  [dir="rtl"] .nav-menu li,
-  html[lang="he"] .nav-menu a,
-  html[lang="he"] .nav-menu li,
-  html[lang="ar"] .nav-menu a,
-  html[lang="ar"] .nav-menu li {
-    text-align: right !important;
-  }
-}
-
-/* ========== END RTL MOBILE NAVBAR FIX ========== */
 
 
 /* ========== NAV CONTAINER MIN-HEIGHT FIX (nav-container-min-height-fix) ========== */
