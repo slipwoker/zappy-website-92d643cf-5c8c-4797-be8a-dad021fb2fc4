@@ -22,6 +22,9 @@ https://ace-car.co.il/about
 https://ace-car.co.il/contact
 צרו קשר עם אייס קאר לקבלת ייעוץ חינם בנושא קצין בטיחות בתעבורה, מיקור חוץ וניהול צי רכב. נשמח לענות על כל שאלה!
 
+### Page
+https://ace-car.co.il/job-openings
+
 ## Legal & Policy
 
 ### Privacy Policy
@@ -51,12 +54,12 @@ Information about WCAG compliance and accessibility features.
 - Method: POST
 - Content-Type: application/json
 - Fields:
-  - `name` (text, required)
-  - `email` (email, required)
-  - `phone` (tel, required)
+  - `name` (text)
+  - `email` (email)
+  - `phone` (tel)
   - `company` (text)
   - `message` (textarea)
-  - `consent` (checkbox, required)
+  - `consent` (checkbox)
 
 ---
 
