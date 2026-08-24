@@ -1573,6 +1573,34 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
 /* /Zappy custom logo size */
 
 
+.home .hero,
+.hero {
+  min-height: 420px;
+  padding: 24px 20px;
+}
+
+.intro-section,
+.services-preview,
+.why-choose,
+.target-audience,
+.cta-section {
+  padding: 24px 20px;
+}
+
+.intro-section .container,
+.services-preview .container,
+.why-choose .container,
+.target-audience .container,
+.cta-section .container {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero .container.hero-content {
+  max-width: 1000px;
+}
+
 /* ZAPPY_ANNOUNCEMENT_HEADER_OFFSET_CSS_V3 */
 :root {
   --zappy-header-stack-height: calc(var(--zappy-announcement-height, 40px) + var(--header-height, 72px));
