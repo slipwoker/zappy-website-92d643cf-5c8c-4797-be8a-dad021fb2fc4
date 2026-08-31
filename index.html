@@ -399,10 +399,14 @@
     return 'zappy_purchase_fired_' + String(orderId || '');
   }
 
+  function purchaseMetaDedupKey(orderId) {
+    return 'zappy_purchase_meta_fired_' + String(orderId || '');
+  }
+
   function alreadyFiredPurchase(orderId) {
     if (!orderId) return false;
     try {
-      return sessionStorage.getItem(purchaseDedupKey(orderId)) === '1';
+      return window.sessionStorage.getItem(purchaseDedupKey(orderId)) === '1';
     } catch (e) {
       return false;
     }
@@ -410,8 +414,77 @@
 
   function markPurchaseFired(orderId) {
     if (!orderId) return;
-    try { sessionStorage.setItem(purchaseDedupKey(orderId), '1'); } catch (e) {}
+    try { window.sessionStorage.setItem(purchaseDedupKey(orderId), '1'); } catch (e) {}
   }
+
+  function alreadyFiredPurchaseMeta(orderId) {
+    if (!orderId) return false;
+    try {
+      return window.sessionStorage.getItem(purchaseMetaDedupKey(orderId)) === '1';
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function markPurchaseMetaFired(orderId) {
+    if (!orderId) return;
+    try { window.sessionStorage.setItem(purchaseMetaDedupKey(orderId), '1'); } catch (e) {}
+  }
+
+  function getPendingMetaEvents() {
+    try {
+      if (!Array.isArray(window.__zappyPendingMetaEvents)) {
+        window.__zappyPendingMetaEvents = [];
+      }
+      return window.__zappyPendingMetaEvents;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function enqueueMetaEvent(eventName, params, orderId) {
+    var q = getPendingMetaEvents();
+    if (orderId) {
+      for (var i = 0; i < q.length; i++) {
+        if (q[i] && q[i].orderId === orderId && q[i].eventName === eventName) return;
+      }
+    }
+    q.push({ eventName: eventName, params: params || {}, orderId: orderId || null });
+  }
+
+  /**
+   * Live sites replace the eager Meta snippet with a consent-gated lazy
+   * loader. Payment providers bounce the shopper back to /order-success
+   * before CookieConsent hydrates, so confirm-order used to fire Purchase
+   * while window.fbq was still undefined — then sessionStorage blocked a
+   * retry. Queue until fbq exists, then flush.
+   */
+  function flushPendingMetaEvents() {
+    if (typeof window.fbq !== 'function') return;
+    var q = getPendingMetaEvents().slice();
+    try { window.__zappyPendingMetaEvents = []; } catch (e) {}
+    for (var i = 0; i < q.length; i++) {
+      var item = q[i];
+      if (!item || !item.eventName) continue;
+      if (item.orderId && alreadyFiredPurchaseMeta(item.orderId)) continue;
+      try {
+        window.fbq('track', item.eventName, item.params || {});
+        if (item.orderId) markPurchaseMetaFired(item.orderId);
+      } catch (e2) {}
+    }
+  }
+  window.zappyFlushPendingMetaEvents = flushPendingMetaEvents;
+
+  var metaFlushAttempts = 0;
+  var metaFlushTimer = setInterval(function() {
+    metaFlushAttempts++;
+    flushPendingMetaEvents();
+    var pendingLen = 0;
+    try { pendingLen = (window.__zappyPendingMetaEvents || []).length; } catch (e) {}
+    if ((pendingLen === 0 && typeof window.fbq === 'function') || metaFlushAttempts > 60) {
+      clearInterval(metaFlushTimer);
+    }
+  }, 500);
 
   /**
    * Fire a marketing event to first-party analytics + GA4/GTM/Meta when present.
@@ -431,15 +504,19 @@
         metadata.pagePath = pagePath();
       }
 
+      var oid = '';
+      var purchaseAlreadySent = false;
+      var purchaseMetaAlreadySent = false;
       if (eventId === 'checkout_complete') {
-        var oid = String(metadata.orderId || metadata.order_id || metadata.transaction_id || '');
-        if (oid && alreadyFiredPurchase(oid)) return;
-        if (oid) markPurchaseFired(oid);
+        oid = String(metadata.orderId || metadata.order_id || metadata.transaction_id || '');
+        purchaseAlreadySent = !!(oid && alreadyFiredPurchase(oid));
+        purchaseMetaAlreadySent = !!(oid && alreadyFiredPurchaseMeta(oid));
+        if (purchaseAlreadySent && purchaseMetaAlreadySent) return;
       }
 
       // First-party (skip when already tracked via zappyTrackEcomAnalytics path
       // that opts out, or when caller already recorded under a different name)
-      if (!opts.skipFirstParty) {
+      if (!opts.skipFirstParty && !purchaseAlreadySent) {
         try {
           if (window.zappyAnalytics && typeof window.zappyAnalytics.track === 'function') {
             window.zappyAnalytics.track(eventId, metadata);
@@ -448,40 +525,53 @@
       }
 
       // GTM / dataLayer — platform-standard ecommerce event names
-      try {
-        window.dataLayer = window.dataLayer || [];
-        if (plat.ecom) {
-          var ga4ForGtm = buildGa4Params(eventId, metadata);
-          var ecommerce = {};
-          if (ga4ForGtm.transaction_id) ecommerce.transaction_id = ga4ForGtm.transaction_id;
-          if (ga4ForGtm.value != null) ecommerce.value = ga4ForGtm.value;
-          if (ga4ForGtm.currency) ecommerce.currency = ga4ForGtm.currency;
-          if (ga4ForGtm.items) ecommerce.items = ga4ForGtm.items;
-          window.dataLayer.push({ event: plat.gtm, ecommerce: ecommerce });
-          // Secondary Zappy-specific trigger for merchants who want it
-          if (eventId === 'checkout_complete' || eventId === 'checkout_started') {
-            window.dataLayer.push({ event: eventId, ecommerce: ecommerce });
+      if (!purchaseAlreadySent) {
+        try {
+          window.dataLayer = window.dataLayer || [];
+          if (plat.ecom) {
+            var ga4ForGtm = buildGa4Params(eventId, metadata);
+            var ecommerce = {};
+            if (ga4ForGtm.transaction_id) ecommerce.transaction_id = ga4ForGtm.transaction_id;
+            if (ga4ForGtm.value != null) ecommerce.value = ga4ForGtm.value;
+            if (ga4ForGtm.currency) ecommerce.currency = ga4ForGtm.currency;
+            if (ga4ForGtm.items) ecommerce.items = ga4ForGtm.items;
+            window.dataLayer.push({ event: plat.gtm, ecommerce: ecommerce });
+            // Secondary Zappy-specific trigger for merchants who want it
+            if (eventId === 'checkout_complete' || eventId === 'checkout_started') {
+              window.dataLayer.push({ event: eventId, ecommerce: ecommerce });
+            }
+          } else {
+            var dl = { event: plat.gtm };
+            for (var k in metadata) {
+              if (Object.prototype.hasOwnProperty.call(metadata, k)) dl[k] = metadata[k];
+            }
+            window.dataLayer.push(dl);
           }
+        } catch (e2) {}
+
+        // GA4 gtag
+        try {
+          if (typeof window.gtag === 'function') {
+            window.gtag('event', plat.ga4, buildGa4Params(eventId, metadata));
+          }
+        } catch (e3) {}
+
+        if (oid) markPurchaseFired(oid);
+      }
+
+      // Meta Pixel — live sites lazy-load fbq after marketing consent. If the
+      // stub is not defined yet, queue and flush when the pixel arrives.
+      try {
+        if (purchaseMetaAlreadySent) {
+          // already delivered to Meta
         } else {
-          var dl = { event: plat.gtm };
-          for (var k in metadata) {
-            if (Object.prototype.hasOwnProperty.call(metadata, k)) dl[k] = metadata[k];
+          var metaParams = buildMetaParams(eventId, metadata);
+          if (typeof window.fbq === 'function') {
+            window.fbq('track', plat.meta, metaParams);
+            if (oid) markPurchaseMetaFired(oid);
+          } else {
+            enqueueMetaEvent(plat.meta, metaParams, eventId === 'checkout_complete' ? oid : null);
           }
-          window.dataLayer.push(dl);
-        }
-      } catch (e2) {}
-
-      // GA4 gtag
-      try {
-        if (typeof window.gtag === 'function') {
-          window.gtag('event', plat.ga4, buildGa4Params(eventId, metadata));
-        }
-      } catch (e3) {}
-
-      // Meta Pixel (only when fbq is loaded — consent-gated lazy loader)
-      try {
-        if (typeof window.fbq === 'function') {
-          window.fbq('track', plat.meta, buildMetaParams(eventId, metadata));
         }
       } catch (e4) {}
     } catch (err) {}
@@ -746,7 +836,7 @@ body:has(.zappy-announcement-bar) .navbar:not(.zappy-catalog-menu):not(.mobile-s
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>שירותי קצין בטיחות בתעבורה מקצועיים — אייס קאר שרותי קצין בטיחות בתעבורה</title>
   <meta name="description" content="מחפשים קצין בטיחות בתעבורה מנוסה? אייס קאר שרותי קצין בטיחות בתעבורה מציעה שירותי בטיחות וניהול צי רכב לחברות הייטק וארגונים. צרו קשר עוד היום!">
-  <meta name="keywords" content="קצין בטיחות בתעבורה, מיקור חוץ, קצין בטיחות בתעבורה לחברות הייטק, ניהול צי רכב לארגונים">
+  <meta name="keywords" content="שירותי קצין בטיחות בתעבורה, ניהול צי רכב לחברות, מיקור חוץ לקצין בטיחות, אחזקת ציי רכב, עלות קצין בטיחות בתעבורה, חוק קצין בטיחות בתעבורה">
   <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
@@ -823,10 +913,10 @@ body:has(.zappy-announcement-bar) .navbar:not(.zappy-catalog-menu):not(.mobile-s
       </div>
       
       <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
-        <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <svg style="display:block !important" class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
         </svg>
-        <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: none;">
+        <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display:none !important">
           <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
         </svg>
       </button>
@@ -851,7 +941,7 @@ body:has(.zappy-announcement-bar) .navbar:not(.zappy-catalog-menu):not(.mobile-s
   </nav>
 
   <section class="hero" id="hero" style="position: relative; overflow: hidden; min-height: 780px !important;" data-zappy-bg-color="" data-zappy-bg-overlay-color="#000000" data-zappy-bg-overlay-opacity="22" data-zappy-bg-video-type="" data-zappy-bg-video-url="" data-hero-type="fullscreen-scrim" data-zappy-content-align="center-center"><div class="hero-overlay" style="display: none" data-zappy-original-bg="hidden"></div>
-    <div data-zappy-zoom-wrapper="true" data-element-id="img-1767255824249-xm63jd44m" data-element-type="image" data-zappy-zoom-wrapper-width-mode="full" style="position: absolute !important; top: 0px !important; left: 0px !important; width: 100% !important; height: 100% !important; max-width: none !important; margin-left: 0px !important; margin-right: 0px !important; z-index: 1 !important; overflow: hidden !important;" data-zappy-zoom-clip="true" data-zappy-wrapper-margins-applied="true" data-zappy-zoom-wrapper-align="center"><img loading="eager" fetchpriority="high" data-placeholder="hero-1" data-context="Wide panoramic view of modern Israeli corporate office with diverse team of professionals collaborating on traffic safety and fleet management solutions, bright natural lighting, professional atmosphere" src="/assets/hero-hero-1-1767256297029-bjpibs.webp" alt="קצין בטיחות בתעבורה מקצועי מציג פתרונות בטיחות לצוות" class="hero-img" style="pointer-events: auto; object-position: 48% 66% !important; inset: 0% 0px 0px 2.1302% !important; object-fit: fill !important; z-index: 0 !important; display: block !important; margin: 0px !important; position: absolute !important; width: 95.5621% !important; height: 100% !important; max-width: none !important; max-height: none !important;" data-element-id="img-1767255824249-xm63jd44m" width="1453" height="600" data-element-type="image" data-zappy-carousel-image-ready="true" data-hero-background="true" data-hero-bg="true" data-zappy-hero-img-base-opacity="1" data-zappy-hero-img-base-blend="normal" data-zappy-zoom="0.5" data-zappy-object-position="48% 66%" decoding="async"></div>
+    <div data-zappy-zoom-wrapper="true" data-element-id="img-1767255824249-xm63jd44m" data-element-type="image" data-zappy-zoom-wrapper-width-mode="full" style="position: absolute; top: 0px !important; left: 0px !important; width: 100%; height: 100%; max-width: none; margin-left: 0px !important; margin-right: 0px !important; z-index: 1 !important; overflow: hidden; inset: 0; max-height: none" data-zappy-zoom-clip="true" data-zappy-wrapper-margins-applied="true" data-zappy-zoom-wrapper-align="center"><img loading="eager" fetchpriority="high" data-placeholder="hero-1" data-context="Wide panoramic view of modern Israeli corporate office with diverse team of professionals collaborating on traffic safety and fleet management solutions, bright natural lighting, professional atmosphere" src="/assets/hero-hero-1-1767256297029-bjpibs.webp" alt="קצין בטיחות בתעבורה מקצועי מציג פתרונות בטיחות לצוות" class="hero-img" style="pointer-events: auto; object-position: 48% 66%; inset: 0; object-fit: cover; z-index: 0 !important; display: block !important; margin: 0; position: absolute; width: 100%; height: 100%; max-width: none; max-height: none" data-element-id="img-1767255824249-xm63jd44m" width="1453" height="600" data-element-type="image" data-zappy-carousel-image-ready="true" data-hero-background="true" data-hero-bg="true" data-zappy-hero-img-base-opacity="1" data-zappy-hero-img-base-blend="normal" data-zappy-zoom="0.5" data-zappy-object-position="48% 66%" decoding="async"></div>
     <div class="zappy-hero-overlay" style="position: absolute; inset: 0px; z-index: 1; background: rgba(0, 0, 0, 0.22); pointer-events: none;"></div><div class="container hero-content" data-zappy-align-target="true" style="position: relative; z-index: 2;">
       <h1 style="color: rgb(26, 26, 26) !important;"><font color="#ffffff">פתרונות בטיחות בתעבורה מתקדמים לארגון שלכם</font></h1>
       <h3 style="color: rgb(26, 26, 26) !important;"><font color="#ffffff">שירותי קצין בטיחות בתעבורה וניהול צי רכב לחברות הייטק, ארגונים ועסקים קטנים</font></h3><p style="color: rgb(26, 26, 26) !important;"><a href="/contact" class="btn btn-primary" style="text-decoration: none; padding: 12px 24px; border-radius: 6px; display: inline-block; border-color: var(--primary-color, var(--primary, #8B0000)) !important; border-style: solid; border-width: 2px; border-image: initial; color: var(--light-text, #ffffff) !important; width: auto !important; flex: 0 0 auto !important; outline: none; background-color: var(--primary-color, var(--primary, #8B0000)) !important; background-image: none !important;" data-element-type="button" data-text-color="light" data-element-id="btn-1778486317651-hcy8bsxcb" id="btn-1778486317651-hcy8bsxcb">קבלו ייעוץ חינם</a>
