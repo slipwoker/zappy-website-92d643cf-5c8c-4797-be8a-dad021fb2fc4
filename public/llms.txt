@@ -46,6 +46,10 @@ https://ace-car.co.il/blog/hitech-safety
 https://ace-car.co.il/blog/cost-savings
 גלו כיצד קצין בטיחות בתעבורה חוסך בעלויות הארגון. צמצום תאונות, ייעול דלק, מניעת קנסות ליסינג ויתרונות של מיקור חוץ לניהול צי רכב.
 
+### טפסים שימושיים לניהול צי רכב | אייס קאר שירותי קצין בטיחות בתעבורה
+https://ace-car.co.il/forms
+מאגר מידע וטפסים מקצועיים לניהול ציי רכב בארגונים. כל מה שקצין בטיחות בתעבורה צריך לתיעוד, בקרה ושמירה על נהלי בטיחות מחמירים. פתרונות מיקור חוץ לחברות הייטק.
+
 ## Legal & Policy
 
 ### Privacy Policy
@@ -75,12 +79,12 @@ Information about WCAG compliance and accessibility features.
 - Method: POST
 - Content-Type: application/json
 - Fields:
-  - `name` (text)
-  - `email` (email)
-  - `phone` (tel)
+  - `name` (text, required)
+  - `email` (email, required)
+  - `phone` (tel, required)
   - `company` (text)
   - `message` (textarea)
-  - `consent` (checkbox)
+  - `consent` (checkbox, required)
 
 ---
 
