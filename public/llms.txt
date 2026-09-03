@@ -42,6 +42,10 @@ https://ace-car.co.il/blog/outsourcing-benefits
 https://ace-car.co.il/blog/hitech-safety
 חברות הייטק מתמודדות עם אתגרים ייחודיים בניהול צי רכב. גלו כיצד קצין בטיחות בתעבורה לחברות הייטק מספק שירות VIP, מנהל חוזי ליסינג ושומר על בטיחות העובדים.
 
+### חיסכון בעלויות
+https://ace-car.co.il/blog/cost-savings
+גלו כיצד קצין בטיחות בתעבורה חוסך בעלויות הארגון. צמצום תאונות, ייעול דלק, מניעת קנסות ליסינג ויתרונות של מיקור חוץ לניהול צי רכב.
+
 ## Legal & Policy
 
 ### Privacy Policy
@@ -71,12 +75,12 @@ Information about WCAG compliance and accessibility features.
 - Method: POST
 - Content-Type: application/json
 - Fields:
-  - `name` (text, required)
-  - `email` (email, required)
-  - `phone` (tel, required)
+  - `name` (text)
+  - `email` (email)
+  - `phone` (tel)
   - `company` (text)
   - `message` (textarea)
-  - `consent` (checkbox, required)
+  - `consent` (checkbox)
 
 ---
 
